@@ -8,10 +8,11 @@ pub trait SpatialVector<T>
 where
     Self: Sized,
     Self: fmt::Display,
-    Self: ops::Add,
-    Self: ops::Sub,
-    Self: ops::Mul, // The dot ("inner") product
-    Self: ops::Rem, // The cross ("outer") product
+    Self: ops::Add<Self,Output=Self>,
+    Self: ops::Sub<Self,Output=Self>,
+    Self: ops::Mul<Self,Output=T>, // The dot ("inner") product
+    Self: ops::Mul<T,Output=Self>, // Scalar multiplication
+    Self: ops::Rem<Output=Self>, // The cross ("outer") product
     Self: cmp::PartialEq,
     T: Scalar,
 {

@@ -19,6 +19,7 @@ impl<T> Vector3D<T>
 where
     T: Scalar,
 {
+    #[allow(non_snake_case)]
     pub fn new(X: T, Y: T, Z: T) -> Self {
         Vector3D { x: X, y: Y, z: Z }
     }
@@ -63,11 +64,25 @@ where
 
 impl<T> ops::Mul for Vector3D<T>
 where
-    T: Scalar + ops::Mul<Output = T>,
+    T: Scalar,
 {
     type Output = T;
     fn mul(self, rhs: Self) -> T {
         self.dot(&rhs)
+    }
+}
+
+impl<T> ops::Mul<T> for Vector3D<T>
+where
+    T: Scalar,
+{
+    type Output = Self;
+    fn mul(self, rhs: T) -> Self {
+        Vector3D {
+            x: self.x * rhs,
+            y: self.y * rhs,
+            z: self.z * rhs,
+        }
     }
 }
 
