@@ -1,33 +1,45 @@
-
+pub use super::scalar::Scalar;
 pub use super::spatial_vector::SpatialVector;
 
+use std::cmp;
 use std::fmt;
 use std::ops;
-use std::cmp;
 
 #[derive(Debug, Clone, Copy)]
-pub struct F32Vector3D {
-    pub x: f32,
-    pub y: f32,
-    pub z: f32,
+pub struct Vector3D<T>
+where
+    T: Scalar,
+{
+    pub x: T,
+    pub y: T,
+    pub z: T,
 }
 
-impl F32Vector3D {
-    pub fn new() -> Self {
-        F32Vector3D { x: 0.0, y: 0.0, z: 0.0 }
+impl<T> Vector3D<T>
+where
+    T: Scalar,
+{
+    pub fn new(X: T, Y: T, Z: T) -> Self {
+        Vector3D { x: X, y: Y, z: Z }
     }
 }
 
-impl fmt::Display for F32Vector3D {
-    fn fmt(&self, f: &mut fmt::Formatter ) -> fmt::Result {
-        write!( f, "<{}, {}, {}>", self.x, self.y, self.z )
+impl<T> fmt::Display for Vector3D<T>
+where
+    T: Scalar,
+{
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "<{}, {}, {}>", self.x, self.y, self.z)
     }
 }
 
-impl ops::Add for F32Vector3D {
+impl<T> ops::Add for Vector3D<T>
+where
+    T: Scalar,
+{
     type Output = Self;
     fn add(self, rhs: Self) -> Self {
-        F32Vector3D {
+        Vector3D {
             x: self.x + rhs.x,
             y: self.y + rhs.y,
             z: self.z + rhs.z,
@@ -35,10 +47,13 @@ impl ops::Add for F32Vector3D {
     }
 }
 
-impl ops::Sub for F32Vector3D {
+impl<T> ops::Sub for Vector3D<T>
+where
+    T: Scalar,
+{
     type Output = Self;
     fn sub(self, rhs: Self) -> Self {
-        F32Vector3D {
+        Vector3D {
             x: self.x - rhs.x,
             y: self.y - rhs.y,
             z: self.z - rhs.z,
@@ -46,147 +61,65 @@ impl ops::Sub for F32Vector3D {
     }
 }
 
-impl ops::Mul for F32Vector3D {
-    type Output = f32;
-    fn mul(self, rhs: Self) -> f32 {
+impl<T> ops::Mul for Vector3D<T>
+where
+    T: Scalar + ops::Mul<Output = T>,
+{
+    type Output = T;
+    fn mul(self, rhs: Self) -> T {
         self.dot(&rhs)
     }
 }
 
-impl ops::Rem for F32Vector3D {
+impl<T> ops::Rem for Vector3D<T>
+where
+    T: Scalar,
+{
     type Output = Self;
     fn rem(self, rhs: Self) -> Self {
         self.cross(&rhs)
     }
 }
 
-impl cmp::PartialEq for F32Vector3D {
+impl<T> cmp::PartialEq for Vector3D<T>
+where
+    T: Scalar,
+{
     fn eq(&self, rhs: &Self) -> bool {
         (self.x == rhs.x) && (self.y == rhs.y) && (self.z == rhs.z)
     }
 }
 
-impl SpatialVector<f32> for F32Vector3D {
-    fn dot(&self, rhs: &Self) -> f32 {
-        self.x*rhs.x + self.y*rhs.y + self.z*rhs.z
+impl<T> SpatialVector<T> for Vector3D<T>
+where
+    T: Scalar,
+{
+    fn dot(&self, rhs: &Self) -> T {
+        self.x * rhs.x + self.y * rhs.y + self.z * rhs.z
     }
-    
+
     fn cross(&self, rhs: &Self) -> Self {
-        F32Vector3D {
-            x: self.y*rhs.z - self.z*rhs.y,
-            y: self.z*rhs.x - self.x*rhs.z,
-            z: self.x*rhs.y - self.y*rhs.x,
+        Vector3D {
+            x: self.y * rhs.z - self.z * rhs.y,
+            y: self.z * rhs.x - self.x * rhs.z,
+            z: self.x * rhs.y - self.y * rhs.x,
         }
     }
-    
+
     // Manual scalar multiplication and division
-    fn scale(&mut self, rhs: f32) {
+    fn scale(&mut self, rhs: T) {
         self.x *= rhs;
         self.y *= rhs;
         self.z *= rhs;
     }
-    
+
     // Calculates the vector norm
-    fn length(&self) -> f32 {
-        (self.x*self.x + self.y*self.y + self.z*self.z).sqrt()
+    fn length(&self) -> T {
+        (self.x * self.x + self.y * self.y + self.z * self.z).sqrt()
     }
-    
+
     // Normalizes the vector
     fn normalize(&mut self) {
-        self.scale( 1.0/self.length() );
+        self.scale(self.length().inv());
     }
 }
-
-
-#[derive(Debug, Clone, Copy)]
-pub struct F64Vector3D {
-    pub x: f64,
-    pub y: f64,
-    pub z: f64,
-}
-
-impl F64Vector3D {
-    pub fn new() -> Self {
-        F64Vector3D { x: 0.0, y: 0.0, z: 0.0 }
-    }
-}
-
-impl fmt::Display for F64Vector3D {
-    fn fmt(&self, f: &mut fmt::Formatter ) -> fmt::Result {
-        write!( f, "<{}, {}, {}>", self.x, self.y, self.z )
-    }
-}
-
-impl ops::Add for F64Vector3D {
-    type Output = Self;
-    fn add(self, rhs: Self) -> Self {
-        F64Vector3D {
-            x: self.x + rhs.x,
-            y: self.y + rhs.y,
-            z: self.z + rhs.z,
-        }
-    }
-}
-
-impl ops::Sub for F64Vector3D {
-    type Output = Self;
-    fn sub(self, rhs: Self) -> Self {
-        F64Vector3D {
-            x: self.x - rhs.x,
-            y: self.y - rhs.y,
-            z: self.z - rhs.z,
-        }
-    }
-}
-
-impl ops::Mul for F64Vector3D {
-    type Output = f64;
-    fn mul(self, rhs: Self) -> f64 {
-        self.dot(&rhs)
-    }
-}
-
-impl ops::Rem for F64Vector3D {
-    type Output = Self;
-    fn rem(self, rhs: Self) -> Self {
-        self.cross(&rhs)
-    }
-}
-
-impl cmp::PartialEq for F64Vector3D {
-    fn eq(&self, rhs: &Self) -> bool {
-        (self.x == rhs.x) && (self.y == rhs.y) && (self.z == rhs.z)
-    }
-}
-
-impl SpatialVector<f64> for F64Vector3D {
-    fn dot(&self, rhs: &Self) -> f64 {
-        self.x*rhs.x + self.y*rhs.y + self.z*rhs.z
-    }
-    
-    fn cross(&self, rhs: &Self) -> Self {
-        F64Vector3D {
-            x: self.y*rhs.z - self.z*rhs.y,
-            y: self.z*rhs.x - self.x*rhs.z,
-            z: self.x*rhs.y - self.y*rhs.x,
-        }
-    }
-    
-    // Manual scalar multiplication and division
-    fn scale(&mut self, rhs: f64) {
-        self.x *= rhs;
-        self.y *= rhs;
-        self.z *= rhs;
-    }
-    
-    // Calculates the vector norm
-    fn length(&self) -> f64 {
-        (self.x*self.x + self.y*self.y + self.z*self.z).sqrt()
-    }
-    
-    // Normalizes the vector
-    fn normalize(&mut self) {
-        self.scale( 1.0/self.length() );
-    }
-}
-
