@@ -23,6 +23,10 @@ where
     pub fn new(X: T, Y: T, Z: T) -> Self {
         Vector3D { x: X, y: Y, z: Z }
     }
+    
+    pub fn zero() -> Self {
+        Vector3D { x: T::zero(), y: T::zero(), z: T::zero() }
+    }
 }
 
 impl<T> fmt::Display for Vector3D<T>

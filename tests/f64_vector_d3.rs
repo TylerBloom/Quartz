@@ -73,11 +73,7 @@ mod tests {
             y: 2.0,
             z: 3.0,
         };
-        let v2 = Vector3D {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0,
-        };
+        let v2 = Vector3D::zero();
         assert_eq!(v1 * v2, 0.0);
         let v3 = Vector3D {
             x: 1.0,
@@ -100,12 +96,8 @@ mod tests {
             y: 2.0,
             z: 3.0,
         };
-        let v2 = Vector3D {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0,
-        };
-        assert_eq!(v1 % v2, Vector3D::new(0.0, 0.0, 0.0));
+        let v2 = Vector3D::zero();
+        assert_eq!(v1 % v2, Vector3D::zero());
         let v3 = Vector3D {
             x: 1.0,
             y: 0.0,
@@ -141,11 +133,7 @@ mod tests {
 
     #[test]
     fn length_vectors() {
-        let v1 = Vector3D {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0,
-        };
+        let v1: Vector3D<f32> = Vector3D::zero();
         assert_eq!(v1.length(), 0.0);
         let v2 = Vector3D {
             x: 1.0,
