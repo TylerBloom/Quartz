@@ -28,7 +28,7 @@ impl Scalar for f32 {
     fn inv(self) -> Self {
         1.0_f32 / self
     }
-    
+
     fn zero() -> Self {
         0.0_f32
     }
@@ -42,7 +42,7 @@ impl Scalar for f64 {
     fn inv(self) -> Self {
         1.0_f64 / self
     }
-    
+
     fn zero() -> Self {
         0.0_f64
     }

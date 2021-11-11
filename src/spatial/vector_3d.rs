@@ -6,41 +6,37 @@ use std::fmt;
 use std::ops;
 
 #[derive(Debug, Clone, Copy)]
-pub struct Vector3D<T>
+pub struct Vector3D<S>
 where
-    T: Scalar,
+    S: Scalar,
 {
-    pub x: T,
-    pub y: T,
-    pub z: T,
+    pub x: S,
+    pub y: S,
+    pub z: S,
 }
 
-impl<T> Vector3D<T>
+impl<S> Vector3D<S>
 where
-    T: Scalar,
+    S: Scalar,
 {
     #[allow(non_snake_case)]
-    pub fn new(X: T, Y: T, Z: T) -> Self {
+    pub fn new(X: S, Y: S, Z: S) -> Self {
         Vector3D { x: X, y: Y, z: Z }
-    }
-    
-    pub fn zero() -> Self {
-        Vector3D { x: T::zero(), y: T::zero(), z: T::zero() }
     }
 }
 
-impl<T> fmt::Display for Vector3D<T>
+impl<S> fmt::Display for Vector3D<S>
 where
-    T: Scalar,
+    S: Scalar,
 {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "<{}, {}, {}>", self.x, self.y, self.z)
     }
 }
 
-impl<T> ops::Add for Vector3D<T>
+impl<S> ops::Add for Vector3D<S>
 where
-    T: Scalar,
+    S: Scalar,
 {
     type Output = Self;
     fn add(self, rhs: Self) -> Self {
@@ -52,9 +48,9 @@ where
     }
 }
 
-impl<T> ops::Sub for Vector3D<T>
+impl<S> ops::Sub for Vector3D<S>
 where
-    T: Scalar,
+    S: Scalar,
 {
     type Output = Self;
     fn sub(self, rhs: Self) -> Self {
@@ -66,22 +62,22 @@ where
     }
 }
 
-impl<T> ops::Mul for Vector3D<T>
+impl<S> ops::Mul for Vector3D<S>
 where
-    T: Scalar,
+    S: Scalar,
 {
-    type Output = T;
-    fn mul(self, rhs: Self) -> T {
+    type Output = S;
+    fn mul(self, rhs: Self) -> S {
         self.dot(&rhs)
     }
 }
 
-impl<T> ops::Mul<T> for Vector3D<T>
+impl<S> ops::Mul<S> for Vector3D<S>
 where
-    T: Scalar,
+    S: Scalar,
 {
     type Output = Self;
-    fn mul(self, rhs: T) -> Self {
+    fn mul(self, rhs: S) -> Self {
         Vector3D {
             x: self.x * rhs,
             y: self.y * rhs,
@@ -90,9 +86,9 @@ where
     }
 }
 
-impl<T> ops::Rem for Vector3D<T>
+impl<S> ops::Rem for Vector3D<S>
 where
-    T: Scalar,
+    S: Scalar,
 {
     type Output = Self;
     fn rem(self, rhs: Self) -> Self {
@@ -100,20 +96,28 @@ where
     }
 }
 
-impl<T> cmp::PartialEq for Vector3D<T>
+impl<S> cmp::PartialEq for Vector3D<S>
 where
-    T: Scalar,
+    S: Scalar,
 {
     fn eq(&self, rhs: &Self) -> bool {
         (self.x == rhs.x) && (self.y == rhs.y) && (self.z == rhs.z)
     }
 }
 
-impl<T> SpatialVector<T> for Vector3D<T>
+impl<S> SpatialVector<S> for Vector3D<S>
 where
-    T: Scalar,
+    S: Scalar,
 {
-    fn dot(&self, rhs: &Self) -> T {
+    fn zero() -> Self {
+        Vector3D {
+            x: S::zero(),
+            y: S::zero(),
+            z: S::zero(),
+        }
+    }
+
+    fn dot(&self, rhs: &Self) -> S {
         self.x * rhs.x + self.y * rhs.y + self.z * rhs.z
     }
 
@@ -126,14 +130,14 @@ where
     }
 
     // Manual scalar multiplication and division
-    fn scale(&mut self, rhs: T) {
+    fn scale(&mut self, rhs: S) {
         self.x *= rhs;
         self.y *= rhs;
         self.z *= rhs;
     }
 
     // Calculates the vector norm
-    fn length(&self) -> T {
+    fn length(&self) -> S {
         (self.x * self.x + self.y * self.y + self.z * self.z).sqrt()
     }
 
