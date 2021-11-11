@@ -6,21 +6,23 @@ use std::fmt;
 use std::marker::PhantomData;
 use std::ops;
 
+#[derive(Debug, Clone, Copy)]
 pub struct Position<S, V>
 where
     S: Scalar,
     V: SpatialVector<S>,
 {
-    v: V,
+    pub v: V,
     s: PhantomData<S>,
 }
 
+#[derive(Debug, Clone, Copy)]
 pub struct Direction<S, V>
 where
     S: Scalar,
     V: SpatialVector<S>,
 {
-    v: V,
+    pub v: V,
     s: PhantomData<S>,
 }
 
@@ -29,7 +31,7 @@ where
     S: Scalar,
     V: SpatialVector<S>,
 {
-    fn new(vec: V) -> Self {
+    pub fn new(vec: V) -> Self {
         Position {
             v: vec,
             s: PhantomData,
@@ -42,7 +44,7 @@ where
     S: Scalar,
     V: SpatialVector<S>,
 {
-    fn new(vec: V) -> Self {
+    pub fn new(vec: V) -> Self {
         Direction {
             v: vec,
             s: PhantomData,
