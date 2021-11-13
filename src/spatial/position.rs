@@ -1,6 +1,6 @@
 pub use super::direction::Direction;
-pub use super::scalar::Scalar;
-pub use super::spatial_vector::SpatialVector;
+pub use crate::math::scalar::Scalar;
+pub use crate::math::lin_alg::spatial_vector::SpatialVector;
 
 use std::cmp;
 use std::fmt;
@@ -110,6 +110,11 @@ where
     S: Scalar,
     V: SpatialVector<S>,
 {
+    // We add one to the size for the homogeneous coordinate used in affine transforms
+    fn size() -> usize {
+        V::size() + 1
+    }
+    
     fn zero() -> Self {
         Position {
             v: V::zero(),

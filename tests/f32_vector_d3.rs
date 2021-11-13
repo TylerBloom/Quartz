@@ -157,12 +157,14 @@ mod tests {
 
     #[test]
     fn normalize_vectors() {
+        let mut v0: Vector3D<f32> = Vector3D::zero();
+        assert!( v0.normalize().is_err() );
         let mut v1 = Vector3D {
             x: 1.0,
             y: 0.0,
             z: 0.0,
         };
-        v1.normalize();
+        assert!( v1.normalize().is_ok() );
         assert_eq!(
             v1,
             Vector3D {
@@ -176,7 +178,7 @@ mod tests {
             y: 1.0,
             z: 1.0,
         };
-        v2.normalize();
+        assert!( v2.normalize().is_ok() );
         assert!(approx_eq(
             &v2,
             &Vector3D {
@@ -191,7 +193,7 @@ mod tests {
             y: 2.0,
             z: 3.0,
         };
-        v3.normalize();
+        assert!( v3.normalize().is_ok() );
         assert!(approx_eq(
             &v3,
             &Vector3D {

@@ -1,4 +1,4 @@
-use super::scalar::Scalar;
+use crate::math::scalar::Scalar;
 
 use std::cmp;
 use std::fmt;
@@ -16,6 +16,9 @@ where
     Self: cmp::PartialEq,
     S: Scalar,
 {
+    // Outputs dimensionality of the vector
+    fn size() -> usize;
+    
     // The zero vector
     fn zero() -> Self;
 

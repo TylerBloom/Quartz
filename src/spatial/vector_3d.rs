@@ -1,5 +1,5 @@
-pub use super::scalar::Scalar;
-pub use super::spatial_vector::SpatialVector;
+pub use crate::math::scalar::Scalar;
+pub use crate::math::lin_alg::spatial_vector::SpatialVector;
 
 use std::cmp;
 use std::fmt;
@@ -104,11 +104,14 @@ where
         (self.x == rhs.x) && (self.y == rhs.y) && (self.z == rhs.z)
     }
 }
-
 impl<S> SpatialVector<S> for Vector3D<S>
 where
     S: Scalar,
 {
+    fn size() -> usize {
+        3
+    }
+    
     fn zero() -> Self {
         Vector3D {
             x: S::zero(),

@@ -1,10 +1,10 @@
-pub use super::scalar::Scalar;
-pub use super::spatial_vector::SpatialVector;
+pub use crate::math::scalar::Scalar;
+pub use crate::math::lin_alg::spatial_vector::SpatialVector;
 
 use std::cmp;
 use std::fmt;
-use std::marker::PhantomData;
 use std::ops;
+use std::marker::PhantomData;
 
 #[derive(Debug, Clone, Copy)]
 pub struct Direction<S, V>
@@ -109,6 +109,10 @@ where
     S: Scalar,
     V: SpatialVector<S>,
 {
+    fn size() -> usize {
+        V::size() + 1
+    }
+    
     fn zero() -> Self {
         Direction {
             v: V::zero(),
