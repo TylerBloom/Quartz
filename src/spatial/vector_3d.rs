@@ -142,7 +142,15 @@ where
     }
 
     // Normalizes the vector
-    fn normalize(&mut self) {
-        self.scale(self.length().inv());
+    fn normalize(&mut self) -> Result<(),&str> {
+        let l = self.length();
+        // TODO: Direct comparisions are not a good idea in the case of
+        // floats... there needs to be a better check here.
+        if l == S::zero() {
+            Err("This vector has length zero, and can't be normalized.")
+        } else {
+            self.scale(l.inv());
+            Ok(())
+        }
     }
 }

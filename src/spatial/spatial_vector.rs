@@ -32,5 +32,5 @@ where
     fn length(&self) -> S;
 
     // Normalizes the vector
-    fn normalize(&mut self) -> ();
+    fn normalize(&mut self) -> Result<(),&str>;
 }

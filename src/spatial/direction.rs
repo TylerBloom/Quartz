@@ -132,7 +132,7 @@ where
         self.v.length()
     }
 
-    fn normalize(&mut self) -> () {
+    fn normalize(&mut self) -> Result<(),&str> {
         self.v.normalize()
     }
 }

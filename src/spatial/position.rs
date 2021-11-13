@@ -133,7 +133,7 @@ where
         self.v.length()
     }
 
-    fn normalize(&mut self) -> () {
+    fn normalize(&mut self) -> Result<(),&str> {
         self.v.normalize()
     }
 }
@@ -157,5 +157,27 @@ where
     type Output = Position<S, V>;
     fn add(self, rhs: Direction<S, V>) -> Position<S, V> {
         Position::new(self.v + rhs.v)
+    }
+}
+
+impl<S, V> ops::Sub<Position<S, V>> for Direction<S, V>
+where
+    S: Scalar,
+    V: SpatialVector<S>,
+{
+    type Output = Position<S, V>;
+    fn sub(self, rhs: Position<S, V>) -> Position<S, V> {
+        Position::new(self.v - rhs.v)
+    }
+}
+
+impl<S, V> ops::Sub<Direction<S, V>> for Position<S, V>
+where
+    S: Scalar,
+    V: SpatialVector<S>,
+{
+    type Output = Position<S, V>;
+    fn sub(self, rhs: Direction<S, V>) -> Position<S, V> {
+        Position::new(self.v - rhs.v)
     }
 }
